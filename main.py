@@ -8,8 +8,8 @@ import time
 import struct
 import pyttsx3
 
-openai.api_key = "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"
-os.environ["OPENAI_API_KEY"] = "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"
+openai.api_key = "<Your_API_Key_from GPT3 Website>"
+os.environ["OPENAI_API_KEY"] = "<Your_API_Key_from GPT3 Website>"
 
 while True:
 
@@ -18,7 +18,7 @@ while True:
     pa = None
     audio_stream = None
     try:
-        porcupine = pvporcupine.create(keywords=["computer"], access_key="0d2cQcJwFfwBnOAaPC777IwUG+KkrGF8+mm4sVudUDKCROd2YBP8pg==")
+        porcupine = pvporcupine.create(keywords=["computer"], access_key="<pvporcupine API Key>")
 
         pa = pyaudio.PyAudio()
 
@@ -49,15 +49,12 @@ while True:
                 pa.terminate()
 
     r = sr.Recognizer()
-    mic = sr.Microphone(device_index=12)
+    # find the microphone index with sr.Microphone.list_microphone_names()
+    device_index = 12
+    mic = sr.Microphone(device_index=device_index)
     with mic as source:
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
-
-    # audio_file = sr.AudioFile('audio.wav')
-    # with audio_file as source:
-    #     r.adjust_for_ambient_noise(source)
-    #     audio = r.record(source)
 
     try:
         start = time.time()
@@ -96,9 +93,10 @@ while True:
         print(answer)
 
     engine = pyttsx3.init()
+    # if you want it to speak faster
     # engine.setProperty("rate", 210)
     voices = engine.getProperty("voices")
-    
+    # female voice is 1, male is 0
     engine.setProperty("voice", voices[1].id)
     engine.say(answer)
     # play the speech
